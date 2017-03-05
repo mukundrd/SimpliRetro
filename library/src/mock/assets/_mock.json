@@ -1,0 +1,29 @@
+[
+  {
+    "url": "https://api.github.com",
+    "nodes": [
+      {
+        "url": "users/{user}/repos",
+        "json": "repos.json"
+      }
+    ]
+  },
+  {
+    "url": "http://gears.trayis.com",
+    "nodes": [
+      {
+        "url": "rest/list_makes",
+        "json": "list_makes.json"
+      }
+    ]
+  },
+  {
+    "url": "http://squire.ap-south-1.elasticbeanstalk.com/",
+    "nodes": [
+      {
+        "url": "rest/no_show_employee",
+        "json": "no_show_employee.json"
+      }
+    ]
+  }
+]

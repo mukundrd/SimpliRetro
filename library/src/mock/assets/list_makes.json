@@ -1,0 +1,186 @@
+{
+  "count": 36,
+  "data": [
+    {
+      "id": 1,
+      "imagePath": "/resources/makes/aprilia.jpg",
+      "name": "Aprilia"
+    },
+    {
+      "id": 2,
+      "imagePath": "/resources/makes/bajaj.jpg",
+      "name": "Bajaj"
+    },
+    {
+      "id": 3,
+      "imagePath": "/resources/makes/benelli.jpg",
+      "name": "Benelli"
+    },
+    {
+      "id": 4,
+      "imagePath": "/resources/makes/bmw.jpg",
+      "name": "BMW"
+    },
+    {
+      "id": 5,
+      "imagePath": "/resources/makes/ducati.jpg",
+      "name": "Ducati"
+    },
+    {
+      "id": 6,
+      "imagePath": "/resources/makes/eider_motors.jpg",
+      "name": "Eider Motors"
+    },
+    {
+      "id": 7,
+      "imagePath": "/resources/makes/electric_bikes.jpg",
+      "name": "Electric Bikes"
+    },
+    {
+      "id": 8,
+      "imagePath": "/resources/makes/erik_buell_racing.jpg",
+      "name": "Erik Buell Racing"
+    },
+    {
+      "id": 9,
+      "imagePath": "/resources/makes/global_auto.jpg",
+      "name": "Global Auto"
+    },
+    {
+      "id": 10,
+      "imagePath": "/resources/makes/harley_davidson.jpg",
+      "name": "Harley Davidson"
+    },
+    {
+      "id": 12,
+      "imagePath": "/resources/makes/hero.jpg",
+      "name": "Hero"
+    },
+    {
+      "id": 11,
+      "imagePath": "/resources/makes/hero_mopeds.jpg",
+      "name": "Hero Mopeds"
+    },
+    {
+      "id": 13,
+      "imagePath": "/resources/makes/honda.jpg",
+      "name": "Honda"
+    },
+    {
+      "id": 14,
+      "imagePath": "/resources/makes/husqvarna.jpg",
+      "name": "Husqvarna"
+    },
+    {
+      "id": 15,
+      "imagePath": "/resources/makes/hyosung.jpg",
+      "name": "Hyosung"
+    },
+    {
+      "id": 16,
+      "imagePath": "/resources/makes/indian.jpg",
+      "name": "Indian"
+    },
+    {
+      "id": 17,
+      "imagePath": "/resources/makes/kawasaki.jpg",
+      "name": "Kawasaki"
+    },
+    {
+      "id": 18,
+      "imagePath": "/resources/makes/keeway.jpg",
+      "name": "Keeway"
+    },
+    {
+      "id": 19,
+      "imagePath": "/resources/makes/kinetic.jpg",
+      "name": "Kinetic"
+    },
+    {
+      "id": 20,
+      "imagePath": "/resources/makes/krisaki.jpg",
+      "name": "Krisaki"
+    },
+    {
+      "id": 21,
+      "imagePath": "/resources/makes/ktm.jpg",
+      "name": "KTM"
+    },
+    {
+      "id": 22,
+      "imagePath": "/resources/makes/lml.jpg",
+      "name": "LML"
+    },
+    {
+      "id": 23,
+      "imagePath": "/resources/makes/mahindra.jpg",
+      "name": "Mahindra"
+    },
+    {
+      "id": 24,
+      "imagePath": "/resources/makes/moto_guzzi.jpg",
+      "name": "Moto Guzzi"
+    },
+    {
+      "id": 25,
+      "imagePath": "/resources/makes/moto_morini.jpg",
+      "name": "Moto Morini"
+    },
+    {
+      "id": 26,
+      "imagePath": "/resources/makes/piaggio.jpg",
+      "name": "Piaggio"
+    },
+    {
+      "id": 27,
+      "imagePath": "/resources/makes/polaris.jpg",
+      "name": "Polaris"
+    },
+    {
+      "id": 28,
+      "imagePath": "/resources/makes/regal_raptor.jpg",
+      "name": "Regal Raptor"
+    },
+    {
+      "id": 29,
+      "imagePath": "/resources/makes/royal_enfield.jpg",
+      "name": "Royal Enfield"
+    },
+    {
+      "id": 36,
+      "imagePath": "/resources/makes/royal_touch.jpg",
+      "name": "Royal Touch"
+    },
+    {
+      "id": 30,
+      "imagePath": "/resources/makes/suzuki.jpg",
+      "name": "Suzuki"
+    },
+    {
+      "id": 31,
+      "imagePath": "/resources/makes/triumph.jpg",
+      "name": "Triumph"
+    },
+    {
+      "id": 32,
+      "imagePath": "/resources/makes/tvs.jpg",
+      "name": "TVS"
+    },
+    {
+      "id": 33,
+      "imagePath": "/resources/makes/um_motorcycles.jpg",
+      "name": "UM Motorcycles"
+    },
+    {
+      "id": 34,
+      "imagePath": "/resources/makes/vespa.jpg",
+      "name": "Vespa"
+    },
+    {
+      "id": 35,
+      "imagePath": "/resources/makes/yamaha.jpg",
+      "name": "Yamaha"
+    }
+  ],
+  "isBike": true
+}
