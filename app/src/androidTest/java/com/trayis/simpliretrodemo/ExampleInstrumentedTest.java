@@ -1,4 +1,4 @@
-package com.trayis.simplimvpdemo;
+package com.trayis.simpliretrodemo;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

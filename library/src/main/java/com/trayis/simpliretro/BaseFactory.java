@@ -1,12 +1,14 @@
-package com.catalyst.travller.app.services;
+package com.trayis.simpliretro;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.catalyst.travller.app.BuildConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.trayis.mock.MockInterceptor;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Converter;
@@ -17,9 +19,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by mudesai on 9/20/16.
  */
-public class BaseFactory {
+public class BaseFactory<S> {
 
     private static OkHttpClient okHttpClient;
+
+    private final String baseUrl;
+    private S service;
+
+    public BaseFactory(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    public void init(Context context) {
+        Retrofit retrofit = getRetrofit(context, baseUrl);
+        Type type = getClass().getGenericSuperclass();
+        ParameterizedType paramType = (ParameterizedType) type;
+        Class<S> sClass = (Class<S>) paramType.getActualTypeArguments()[0];
+        service = retrofit.create(sClass);
+    }
 
     @NonNull
     protected static Retrofit getRetrofit(Context context, String baseUrl) {
@@ -56,5 +73,9 @@ public class BaseFactory {
         }
 
         return okHttpClient;
+    }
+
+    public S getService() {
+        return service;
     }
 }

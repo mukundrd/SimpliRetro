@@ -19,23 +19,6 @@ android {
         }
     }
 
-//    productFlavors {
-//        prod {
-//            sourceSets.main.assets.srcDirs = ['assets']
-//            resValue "string", "app_name", "Traveller"
-//        }
-//        mock {
-//            applicationIdSuffix ".mock"
-//            sourceSets.main.assets.srcDirs = ['mockAssets']
-//            resValue "string", "app_name", "Traveller-Mock"
-//        }
-//        dev {
-//            applicationIdSuffix ".dev"
-//            sourceSets.main.assets.srcDirs = ['assets']
-//            resValue "string", "app_name", "Traveller-Dev"
-//        }
-//    }
-
     dependencies {
         compile fileTree(dir: 'libs', include: ['*.jar'])
 

@@ -12,16 +12,4 @@
         android:layout_height="wrap_content"
         android:text="GIT" />
 
-    <Button
-        android:id="@+id/click_gears"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GEARS" />
-
-    <Button
-        android:id="@+id/click_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PROFILE" />
-
 </LinearLayout>

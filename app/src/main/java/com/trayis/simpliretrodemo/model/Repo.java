@@ -1,4 +1,4 @@
-package com.catalyst.travller.app.model;
+package com.trayis.simpliretrodemo.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
