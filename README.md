@@ -24,8 +24,8 @@ To work with Retrofit you need basically three classes.
 
 Every method of an interface represents one possible API call. It must have a HTTP annotation (GET, POST, etc.) to specify the request type and the relative URL. The return value wraps the response in a Call object with the type of the expected result.
 
-You can generate Java objects based on JSON via the following URL:
-
-http://www.jsonschema2pojo.org
-
-This can be useful to create complex Java data structures from existing JSON.
+> You can generate Java objects based on JSON via the following URL:
+> 
+> http://www.jsonschema2pojo.org
+> 
+> This can be useful to create complex Java data structures from existing JSON.
