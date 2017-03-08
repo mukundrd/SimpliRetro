@@ -12,3 +12,14 @@ This library will help us with developing apps with mocking the data (details aw
 Retrofit is a REST Client for Android and Java by Square. It makes it relatively easy to retrieve and upload JSON (or other structured data) via a REST based webservice.
 
 In Retrofit you configure which converter is used for the data serialization. Typically for JSON you use GSon, but you can add custom converters to process XML or other protocols. Retrofit uses the OkHttp library for HTTP requests.
+
+# Using Retrofit
+To work with Retrofit you need basically three classes.
+
+- Model class which is used to map the JSON data to
+
+- Interfaces which defines the possible HTTP operations
+
+- Retrofit.Builder class - Instance which uses the interface and the Builder API which allows defining the URL end point for the HTTP operation.
+
+Every method of an interface represents one possible API call. It must have a HTTP annotation (GET, POST, etc.) to specify the request type and the relative URL. The return value wraps the response in a Call object with the type of the expected result.
