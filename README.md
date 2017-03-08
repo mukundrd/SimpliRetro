@@ -30,10 +30,18 @@ Every method of an interface represents one possible API call. It must have a HT
 > 
 > This can be useful to create complex Java data structures from existing JSON.
 
+Add the repository inclusion for dependency download
+
 ```gradle
 repositories {
     maven {
         url  "http://dl.bintray.com/trayis/android_lib" 
     }
 }
+```
+
+and then, add the dependency as: 
+
+```gradle
+compile 'com.trayis:simpliRetro:0.0.1'
 ```
