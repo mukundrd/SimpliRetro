@@ -29,3 +29,11 @@ Every method of an interface represents one possible API call. It must have a HT
 > http://www.jsonschema2pojo.org
 > 
 > This can be useful to create complex Java data structures from existing JSON.
+
+```gradle
+repositories {
+    maven {
+        url  "http://dl.bintray.com/trayis/android_lib" 
+    }
+}
+```
