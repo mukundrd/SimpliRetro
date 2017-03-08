@@ -5,14 +5,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.trayis.simpliretrodemo.model.Repo;
 import com.trayis.simpliretrodemo.services.GitServiceFactory;
 
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -36,33 +36,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getGit() {
-        Observer<Repo[]> observer = new Observer<Repo[]>() {
+        Call<Repo[]> repos = GitServiceFactory.getInstance().getService().getRepos("mukundrd");
+        repos.enqueue(new Callback<Repo[]>() {
             @Override
-            public void onCompleted() {
-                Log.i(TAG, "Completed");
-            }
+            public void onResponse(Call<Repo[]> call, Response<Repo[]> response) {
+                if (response.isSuccessful()) {
+                    Repo[] reposData = response.body();
+                    if (reposData != null) {
+                        Log.v(TAG, "Data length : " + reposData.length);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.e(TAG, e.getMessage(), e);
-            }
-
-            @Override
-            public void onNext(Repo[] reposData) {
-                if (reposData != null) {
-                    Log.v(TAG, "Data length : " + reposData.length);
-                }
-
-                Log.v(TAG, "Data : ");
-                for (Repo data : reposData) {
-                    Log.v(TAG, data.toString());
+                    Log.v(TAG, "Data : ");
+                    for (Repo data : reposData) {
+                        Log.v(TAG, data.toString());
+                    }
+                } else {
+                    Toast.makeText(MainActivity.this, "Error code " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
-        };
 
-        Observable<Repo[]> repos = GitServiceFactory.getInstance().getService().getRepos("mukundrd");
-        repos.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
+            @Override
+            public void onFailure(Call<Repo[]> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Did not work " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
