@@ -30,7 +30,7 @@ Every method of an interface represents one possible API call. It must have a HT
 > 
 > This can be useful to create complex Java data structures from existing JSON.
 
-Add the repository inclusion for dependency download
+Copy the Gradle configuration for compiling android application with below repo url:
 
 ```gradle
 repositories {
