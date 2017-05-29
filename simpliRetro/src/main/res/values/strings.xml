@@ -1,15 +1,3 @@
 <resources>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
-
-    <!-- Home Screen-->
-    <string name="new_event">New Event</string>
-    <string name="search_event">Search Event</string>
-    <string name="all_event">All Event</string>
-
-    <string name="SIGN_IN">Sign In</string>
-    <string name="Sign_up">Sign Up</string>
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAu0_XxggGoj86qjfkHK-U0VZ8yIfMrGTI</string>
+    <string name="app_name">simpli Retro</string>
 </resources>

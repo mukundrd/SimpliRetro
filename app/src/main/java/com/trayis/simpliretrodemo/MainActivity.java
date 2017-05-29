@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(com.catalyst.travller.app.R.layout.activity_home);
-        findViewById(com.catalyst.travller.app.R.id.click_git).setOnClickListener(this);
+        setContentView(R.layout.activity_home);
+        findViewById(R.id.click_git).setOnClickListener(this);
     }
 
     @Override
