@@ -15,6 +15,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -56,6 +57,7 @@ public class BaseFactory<S> {
      * @return
      */
     @NonNull
+
     private synchronized Retrofit getRetrofit(Context context, String baseUrl) {
         if (retrofit == null) {
             OkHttpClient client = getClient(context);
@@ -64,6 +66,7 @@ public class BaseFactory<S> {
 
             retrofit = new Retrofit.Builder()
                     .client(client)
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(converterFactory)
                     .baseUrl(baseUrl)
                     .build();

@@ -1,0 +1,121 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+def siteUrl = 'https://gitlab.com/Trayis/SimpliRetro'      // Homepage URL of the library
+def gitUrl = 'https://gitlab.com/Trayis/SimpliRetro.git'   // Git repository URL
+
+android {
+
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        dependencies {
+            compile fileTree(dir: 'libs', include: ['*.jar'])
+
+            testCompile 'junit:junit:4.12'
+
+            compile 'com.android.support:appcompat-v7:25.1.1'
+
+            //Retrofit
+            compile 'com.squareup.retrofit2:retrofit:2.1.0'
+            compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+            compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+group = 'com.trayis'    // Maven Group ID for the artifact
+version = '0.0.2'       // This is the library version used when deploying the artifact
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom.project {
+            name 'SimpliRetro'
+            description = 'SimpliRetro is our effort to create a simple and understandable Library\n' +
+                    'which works with Retrofit for network communication. Idea here is to create a basic code structure \n' +
+                    'that can be further extend based on the project needs.'
+            url siteUrl
+            inceptionYear '2017'
+
+            packaging 'aar'
+
+            // Set your license
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                }
+            }
+            developers {
+                developer {
+                    id 'muks.dev'
+                    name 'Mukund Desai'
+                    email 'muks.dev@trayis.com'
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+            }
+        }
+    }
+}
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    //classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+bintray {
+    def file = new File('local.properties')
+    if (file.exists()) {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        user = properties.getProperty("bintray.user")
+        key = properties.getProperty("bintray.apikey")
+        configurations = ['archives']
+        pkg {
+            repo = "android_lib"
+            name = "SimpliRetro"
+            websiteUrl = siteUrl
+            vcsUrl = gitUrl
+            licenses = ["Apache-2.0"]
+            publish = true
+        }
+    }
+}
+
+

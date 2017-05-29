@@ -5,6 +5,7 @@ import com.trayis.simpliretrodemo.model.Repo;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import rx.Observable;
 
 /**
  * Created by Mukund Desai on 03/08/17.
@@ -12,6 +13,6 @@ import retrofit2.http.Path;
 public interface GitService {
 
     @GET("users/{user}/repos")
-    Call<Repo[]> getRepos(@Path("user") String user);
+    Observable<Repo[]> getRepos(@Path("user") String user);
 
 }
