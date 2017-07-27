@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
 
     defaultConfig {
-        applicationId "com.trayis.simpliretropdemo"
-        minSdkVersion 16
-        targetSdkVersion 25
+        applicationId "com.taryis.examples.bottomtab1"
+        minSdkVersion 17
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -20,16 +20,6 @@ android {
         }
     }
 
-    productFlavors {
-        prod {
-            sourceSets.main.assets.srcDirs = ['assets']
-        }
-        mock {
-            applicationIdSuffix ".mock"
-            sourceSets.main.assets.srcDirs = ['mock']
-        }
-    }
-
     lintOptions {
         abortOnError false
     }
@@ -37,16 +27,14 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    implementation "com.android.support:appcompat-v7:$androidLib"
 
-    compile project(':simpliRetro')
+    implementation project(':simpliRetro')
 
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
 
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 
 }

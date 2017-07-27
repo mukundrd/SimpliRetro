@@ -1,6 +1,10 @@
 package com.trayis.simpliretrodemo.services;
 
 import com.trayis.simpliretro.BaseFactory;
+import com.trayis.simpliretrodemo.model.Repo;
+
+import retrofit2.http.Path;
+import rx.Observable;
 
 /**
  * Created by mudesai on 9/20/16.
@@ -20,6 +24,11 @@ public class GitServiceFactory extends BaseFactory<GitService> {
             instance = new GitServiceFactory();
         }
         return instance;
+    }
+
+
+    public Observable<Repo[]> getRepos(String user) {
+        return prepareObservable(getService().getRepos(user));
     }
 
 }

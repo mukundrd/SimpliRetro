@@ -10,10 +10,6 @@ import android.widget.Toast;
 import com.trayis.simpliretrodemo.model.Repo;
 import com.trayis.simpliretrodemo.services.GitServiceFactory;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import rx.Observable;
 import rx.Subscriber;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -34,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getGit() {
-        GitServiceFactory.getInstance().getService().getRepos("mukundrd").subscribe(new Subscriber<Repo[]>() {
+        GitServiceFactory.getInstance().getRepos("mukundrd").subscribe(new Subscriber<Repo[]>() {
             @Override
             public void onCompleted() {
             }
