@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.trayis.mock.MockInterceptor;
 
 import java.lang.reflect.ParameterizedType;
+import java.net.ConnectException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -135,16 +136,14 @@ public class BaseFactory<S> {
         interceptors.add(interceptor);
     }
 
-    /**
-     * Retrieve service instance out from the process.
-     *
-     * @return
-     */
     protected S getService() {
         return service;
     }
 
     protected <T extends Object> Observable<T> prepareObservable(Observable<T> observable) {
+        if (!isConnectionAvailable()) {
+            return Observable.error(new ConnectException("Connection Not Available"));
+        }
         observable = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         return observable;
     }
