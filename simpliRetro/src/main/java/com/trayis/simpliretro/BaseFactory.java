@@ -1,6 +1,8 @@
 package com.trayis.simpliretro;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
@@ -8,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.trayis.mock.MockInterceptor;
 
 import java.lang.reflect.ParameterizedType;
+import java.net.ConnectException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +20,9 @@ import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Mukund Desai on 03/08/17.
@@ -33,6 +39,8 @@ public class BaseFactory<S> {
 
     private S service;
 
+    private Context context;
+
     protected BaseFactory(String baseUrl) {
         this.baseUrl = baseUrl;
     }
@@ -43,6 +51,7 @@ public class BaseFactory<S> {
      * @param context
      */
     public void init(Context context) {
+        this.context = context.getApplicationContext();
         Retrofit retrofit = getRetrofit(context, baseUrl);
         ParameterizedType paramType = (ParameterizedType) getClass().getGenericSuperclass();
         Class<S> sClass = (Class<S>) paramType.getActualTypeArguments()[0];
@@ -63,6 +72,8 @@ public class BaseFactory<S> {
             OkHttpClient client = getClient(context);
 
             Converter.Factory converterFactory = getConverterFactory();
+            ConnectivityManager cm =
+                    (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
             retrofit = new Retrofit.Builder()
                     .client(client)
@@ -70,6 +81,7 @@ public class BaseFactory<S> {
                     .addConverterFactory(converterFactory)
                     .baseUrl(baseUrl)
                     .build();
+
         }
 
         return retrofit;
@@ -101,10 +113,8 @@ public class BaseFactory<S> {
         if (okHttpClient == null) {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
-            if (interceptors != null) {
-                for (Interceptor interceptor : interceptors) {
-                    builder.addInterceptor(interceptor);
-                }
+            for (Interceptor interceptor : interceptors) {
+                builder.addInterceptor(interceptor);
             }
 
             if (MockInterceptor.isConfigured(context)) {
@@ -126,12 +136,23 @@ public class BaseFactory<S> {
         interceptors.add(interceptor);
     }
 
-    /**
-     * Retrieve service instance out from the process.
-     *
-     * @return
-     */
-    public S getService() {
+    protected S getService() {
         return service;
     }
+
+    protected <T extends Object> Observable<T> prepareObservable(Observable<T> observable) {
+        if (!isConnectionAvailable()) {
+            return Observable.error(new ConnectException("Connection Not Available"));
+        }
+        observable = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        return observable;
+    }
+
+    private boolean isConnectionAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 }

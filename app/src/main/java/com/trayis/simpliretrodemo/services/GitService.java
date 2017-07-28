@@ -1,8 +1,9 @@
 package com.trayis.simpliretrodemo.services;
 
+import android.support.annotation.WorkerThread;
+
 import com.trayis.simpliretrodemo.model.Repo;
 
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import rx.Observable;
@@ -12,6 +13,7 @@ import rx.Observable;
  */
 public interface GitService {
 
+    @WorkerThread
     @GET("users/{user}/repos")
     Observable<Repo[]> getRepos(@Path("user") String user);
 
