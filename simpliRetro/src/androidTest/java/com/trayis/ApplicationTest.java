@@ -1,4 +1,4 @@
-package com.catalyst.travller.app;
+package com.trayis;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,4 +1,4 @@
-package com.trayis.mock;
+package com.trayis.simpliretro.mock;
 
 import android.content.Context;
 import android.text.TextUtils;

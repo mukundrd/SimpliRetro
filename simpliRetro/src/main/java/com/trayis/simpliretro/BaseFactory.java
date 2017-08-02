@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.trayis.mock.MockInterceptor;
+import com.trayis.simpliretro.mock.MockInterceptor;
 
 import java.lang.reflect.ParameterizedType;
 import java.net.ConnectException;
