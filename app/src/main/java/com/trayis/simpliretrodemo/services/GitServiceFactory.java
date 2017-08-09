@@ -3,7 +3,6 @@ package com.trayis.simpliretrodemo.services;
 import com.trayis.simpliretro.BaseFactory;
 import com.trayis.simpliretrodemo.model.Repo;
 
-import retrofit2.http.Path;
 import rx.Observable;
 
 /**
