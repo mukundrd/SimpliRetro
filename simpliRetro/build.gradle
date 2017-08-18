@@ -43,7 +43,7 @@ dependencies {
 }
 
 group = 'com.trayis'    // Maven Group ID for the artifact
-version = '0.0.7'       // This is the library version used when deploying the artifact
+version = '0.0.8'       // This is the library version used when deploying the artifact
 
 install {
     repositories.mavenInstaller {
