@@ -47,8 +47,6 @@ public class BaseFactory<S> {
 
     /**
      * Initialize retrofit service by invoking this method.
-     *
-     * @param context
      */
     public void init(Context context) {
         this.context = context.getApplicationContext();
@@ -129,8 +127,6 @@ public class BaseFactory<S> {
 
     /**
      * Adding custom interceptor for the rest client.
-     *
-     * @param interceptor
      */
     public void addInterceptor(Interceptor interceptor) {
         interceptors.add(interceptor);
