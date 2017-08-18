@@ -102,7 +102,7 @@ public class MockInterceptor implements Interceptor, Runnable {
             is.close();
             json = new String(buffer, "UTF-8");
         } catch (IOException e) {
-            Log.e(TAG, e.getMessage(), e);
+            Log.w(TAG, e.getMessage(), e);
         }
         return json;
     }
