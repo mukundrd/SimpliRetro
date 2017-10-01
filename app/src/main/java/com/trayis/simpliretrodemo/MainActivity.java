@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.trayis.simpliretrodemo.model.Repo;
 import com.trayis.simpliretrodemo.services.GitServiceFactory;
 
-import rx.Subscriber;
+import rx.SingleSubscriber;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,18 +30,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getGit() {
-        GitServiceFactory.getInstance().getRepos("mukundrd").subscribe(new Subscriber<Repo[]>() {
+        GitServiceFactory.getInstance().getRepos("mukundrd").subscribe(new SingleSubscriber<Repo[]>() {
             @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Toast.makeText(MainActivity.this, "Did not work " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNext(Repo[] repos) {
+            public void onSuccess(Repo[] repos) {
                 if (repos != null) {
                     Log.v(TAG, "Data length : " + repos.length);
                 }
@@ -51,7 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.v(TAG, data.toString());
                 }
             }
+
+            @Override
+            public void onError(Throwable e) {
+                Toast.makeText(MainActivity.this, "Did not work " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
-        ;
     }
 }

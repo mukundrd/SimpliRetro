@@ -3,7 +3,7 @@ package com.trayis.simpliretrodemo.services;
 import com.trayis.simpliretro.BaseFactory;
 import com.trayis.simpliretrodemo.model.Repo;
 
-import rx.Observable;
+import rx.Single;
 
 /**
  * Created by mudesai on 9/20/16.
@@ -26,8 +26,8 @@ public class GitServiceFactory extends BaseFactory<GitService> {
     }
 
 
-    public Observable<Repo[]> getRepos(String user) {
-        return prepareObservable(getService().getRepos(user));
+    public Single<Repo[]> getRepos(String user) {
+        return prepareSingle(getService().getRepos(user));
     }
 
 }
