@@ -113,7 +113,7 @@ public class MockInterceptor implements Interceptor, Runnable {
         try {
             is = context.getAssets().open(MOCK_JSON);
         } catch (IOException e) {
-            Log.e(TAG, e.getMessage(), e);
+            Log.w(TAG, e.getMessage(), e);
         } finally {
             if (is != null) {
                 fileExists = true;
