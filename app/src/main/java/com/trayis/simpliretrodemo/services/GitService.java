@@ -1,6 +1,6 @@
 package com.trayis.simpliretrodemo.services;
 
-import android.support.annotation.WorkerThread;
+import androidx.annotation.WorkerThread;
 
 import com.trayis.simpliretrodemo.model.Repo;
 

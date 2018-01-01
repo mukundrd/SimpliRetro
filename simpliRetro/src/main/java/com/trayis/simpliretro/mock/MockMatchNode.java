@@ -8,11 +8,11 @@ import android.os.Parcelable;
  */
 public class MockMatchNode implements Parcelable {
 
-    public String url;
+    String url;
 
-    public String json;
+    String json;
 
-    protected MockMatchNode(Parcel in) {
+    private MockMatchNode(Parcel in) {
         url = in.readString();
         json = in.readString();
     }

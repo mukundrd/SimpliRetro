@@ -1,6 +1,7 @@
 package com.trayis.simpliretro.mock;
 
 import android.content.Context;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -28,16 +29,11 @@ public class MockInterceptor implements Interceptor, Runnable {
 
     private final Context context;
 
-    private Domain[] domains;
-
     private MockUriMatcher uriMatcher;
 
     private MockInterceptor(Context context) {
         this.context = context.getApplicationContext();
-
-        // TODO: Confirm if possible to avoid thread spawning
         new Thread(this).start();
-        // run();
     }
 
     public static MockInterceptor getInstance(Context context) {
@@ -45,7 +41,7 @@ public class MockInterceptor implements Interceptor, Runnable {
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
 
         HttpUrl url = request.url();
@@ -54,8 +50,7 @@ public class MockInterceptor implements Interceptor, Runnable {
         String json = uriMatcher.match(url);
 
         if (!TextUtils.isEmpty(json)) {
-            Response response = obtainResponse(request, json);
-            return response;
+            return obtainResponse(request, json);
         }
 
         return chain.proceed(request);
@@ -63,7 +58,8 @@ public class MockInterceptor implements Interceptor, Runnable {
 
     private Response obtainResponse(Request request, String json) {
         String responseString = loadJsonFromFile(json);
-        Response response = new Response.Builder()
+
+        return new Response.Builder()
                 .code(200)
                 .message("Mock - Response")
                 .request(request)
@@ -71,22 +67,23 @@ public class MockInterceptor implements Interceptor, Runnable {
                 .body(ResponseBody.create(MediaType.parse("application/json"), responseString.getBytes()))
                 .addHeader("content-type", "application/json")
                 .build();
-
-        return response;
     }
 
     @Override
     public void run() {
         String array = loadJsonFromFile(MOCK_JSON);
         Gson gson = new Gson();
-        domains = gson.fromJson(array, Domain[].class);
+        Domain[] domains = gson.fromJson(array, Domain[].class);
         uriMatcher = new MockUriMatcher(MockUriMatcher.NO_MATCH);
 
         for (Domain domain : domains) {
             MockMatchNode[] nodes = domain.nodes;
             for (MockMatchNode node : nodes) {
-                String baseUrl = HttpUrl.parse(domain.url).host();
-                uriMatcher.addURI(baseUrl, node.url, node.json);
+                HttpUrl parse = HttpUrl.parse(domain.url);
+                if (parse != null) {
+                    String baseUrl = parse.host();
+                    uriMatcher.addURI(baseUrl, node.url, node.json);
+                }
             }
         }
 
@@ -98,6 +95,7 @@ public class MockInterceptor implements Interceptor, Runnable {
             InputStream is = context.getAssets().open(jsonFile);
             int size = is.available();
             byte[] buffer = new byte[size];
+            //noinspection ResultOfMethodCallIgnored
             is.read(buffer);
             is.close();
             json = new String(buffer, "UTF-8");
