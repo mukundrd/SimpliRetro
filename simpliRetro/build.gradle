@@ -6,14 +6,19 @@ def siteUrl = 'https://gitlab.com/Trayis/SimpliRetro'      // Homepage URL of th
 def gitUrl = 'https://gitlab.com/Trayis/SimpliRetro.git'   // Git repository URL
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
+        minSdkVersion 17
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
@@ -30,7 +35,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "com.android.support:support-annotations:$androidLib"
 

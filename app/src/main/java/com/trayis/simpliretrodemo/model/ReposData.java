@@ -8,11 +8,6 @@ import android.os.Parcelable;
  */
 public class ReposData implements Parcelable {
 
-    public Repo[] repos;
-
-    protected ReposData(Parcel in) {
-    }
-
     public static final Creator<ReposData> CREATOR = new Creator<ReposData>() {
         @Override
         public ReposData createFromParcel(Parcel in) {
@@ -24,6 +19,10 @@ public class ReposData implements Parcelable {
             return new ReposData[size];
         }
     };
+    public Repo[] repos;
+
+    protected ReposData(Parcel in) {
+    }
 
     @Override
     public int describeContents() {

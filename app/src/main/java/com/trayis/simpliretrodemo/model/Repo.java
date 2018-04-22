@@ -10,58 +10,49 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Repo implements Parcelable {
 
+    public static final Creator<Repo> CREATOR = new Creator<Repo>() {
+        @Override
+        public Repo createFromParcel(Parcel in) {
+            return new Repo(in);
+        }
+
+        @Override
+        public Repo[] newArray(int size) {
+            return new Repo[size];
+        }
+    };
     @SerializedName("teams_url")
     private String teamsUrl;
-
     private String description;
-
     @SerializedName("pushed_at")
     private String pushedAt;
-
     private String homepage;
-
     private String url;
-
     private String size;
-
     @SerializedName("updated_at")
     private String updatedAt;
-
     private Owner owner;
-
     private String language;
-
     @SerializedName("commits_url")
     private String commitsUrl;
-
     @SerializedName("private")
     private boolean isPrivate;
-
     @SerializedName("default_branch")
     private String defaultBranch;
-
     private String id;
-
     @SerializedName("downloads_url")
     private String downloadsUrl;
-
     private String name;
-
     @SerializedName("created_at")
     private String createdAt;
-
     @SerializedName("languages_url")
     private String languagesUrl;
-
     @SerializedName("ssh_url")
     private String sshUrl;
-
     @SerializedName("html_url")
     private String htmlUrl;
-
     @SerializedName("git_url")
     private String gitUrl;
-
     @SerializedName("full_name")
     private String fullName;
 
@@ -88,18 +79,6 @@ public class Repo implements Parcelable {
         gitUrl = in.readString();
         fullName = in.readString();
     }
-
-    public static final Creator<Repo> CREATOR = new Creator<Repo>() {
-        @Override
-        public Repo createFromParcel(Parcel in) {
-            return new Repo(in);
-        }
-
-        @Override
-        public Repo[] newArray(int size) {
-            return new Repo[size];
-        }
-    };
 
     @Override
     public int describeContents() {

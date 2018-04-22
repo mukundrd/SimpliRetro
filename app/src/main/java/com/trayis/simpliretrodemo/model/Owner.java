@@ -9,9 +9,6 @@ import android.os.Parcelable;
 
 class Owner implements Parcelable {
 
-    protected Owner(Parcel in) {
-    }
-
     public static final Creator<Owner> CREATOR = new Creator<Owner>() {
         @Override
         public Owner createFromParcel(Parcel in) {
@@ -23,6 +20,9 @@ class Owner implements Parcelable {
             return new Owner[size];
         }
     };
+
+    protected Owner(Parcel in) {
+    }
 
     @Override
     public int describeContents() {
