@@ -4,9 +4,9 @@ import android.support.annotation.WorkerThread;
 
 import com.trayis.simpliretrodemo.model.Repo;
 
+import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Single;
 
 /**
  * Created by Mukund Desai on 03/08/17.

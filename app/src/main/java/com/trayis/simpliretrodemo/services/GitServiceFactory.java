@@ -3,7 +3,7 @@ package com.trayis.simpliretrodemo.services;
 import com.trayis.simpliretro.BaseFactory;
 import com.trayis.simpliretrodemo.model.Repo;
 
-import rx.Single;
+import io.reactivex.Single;
 
 /**
  * Created by mudesai on 9/20/16.
