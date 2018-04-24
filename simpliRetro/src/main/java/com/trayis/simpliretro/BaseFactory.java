@@ -14,16 +14,16 @@ import java.net.ConnectException;
 import java.util.HashSet;
 import java.util.Set;
 
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
-import rx.Single;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Mukund Desai on 03/08/17.
@@ -65,7 +65,6 @@ public class BaseFactory<S> {
      * @return
      */
     @NonNull
-
     private synchronized Retrofit getRetrofit(Context context, String baseUrl) {
         if (retrofit == null) {
             OkHttpClient client = getClient(context);
@@ -76,7 +75,7 @@ public class BaseFactory<S> {
 
             retrofit = new Retrofit.Builder()
                     .client(client)
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(converterFactory)
                     .baseUrl(baseUrl)
                     .build();
@@ -141,16 +140,28 @@ public class BaseFactory<S> {
         if (!isConnectionAvailable()) {
             return Observable.error(new ConnectException("Connection Not Available"));
         }
-        observable = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        return observable;
+        return ReactiveUtil.prepareObservable(observable);
     }
 
     protected <T extends Object> Single<T> prepareSingle(Single<T> single) {
         if (!isConnectionAvailable()) {
             return Single.error(new ConnectException("Connection Not Available"));
         }
-        single = single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        return single;
+        return ReactiveUtil.prepareSingle(single);
+    }
+
+    protected <T extends Object> Completable prepareCompletable(Completable completable) {
+        if (!isConnectionAvailable()) {
+            return Completable.error(new ConnectException("Connection Not Available"));
+        }
+        return ReactiveUtil.prepareCompletable(completable);
+    }
+
+    protected <T extends Object> Flowable<T> prepareFlowable(Flowable<T> flowable) {
+        if (!isConnectionAvailable()) {
+            return Flowable.error(new ConnectException("Connection Not Available"));
+        }
+        return ReactiveUtil.prepareFlowable(flowable);
     }
 
     private boolean isConnectionAvailable() {

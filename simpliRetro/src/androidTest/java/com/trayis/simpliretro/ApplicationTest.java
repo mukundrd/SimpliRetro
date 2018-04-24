@@ -1,4 +1,4 @@
-package com.trayis;
+package com.trayis.simpliretro;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

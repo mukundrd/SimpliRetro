@@ -10,7 +10,8 @@ import android.widget.Toast;
 import com.trayis.simpliretrodemo.model.Repo;
 import com.trayis.simpliretrodemo.services.GitServiceFactory;
 
-import rx.SingleSubscriber;
+import io.reactivex.SingleObserver;
+import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -30,7 +31,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void getGit() {
-        GitServiceFactory.getInstance().getRepos("mukundrd").subscribe(new SingleSubscriber<Repo[]>() {
+        GitServiceFactory.getInstance().getRepos("mukundrd").subscribe(new SingleObserver<Repo[]>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
             @Override
             public void onSuccess(Repo[] repos) {
                 if (repos != null) {
