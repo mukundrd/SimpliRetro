@@ -36,7 +36,7 @@ public class BaseFactory<S> {
 
     private final String baseUrl;
 
-    private Set<Interceptor> interceptors = new HashSet();
+    private Set<Interceptor> interceptors = new HashSet<>();
 
     private S service;
 
@@ -53,6 +53,7 @@ public class BaseFactory<S> {
         this.context = context.getApplicationContext();
         Retrofit retrofit = getRetrofit(context, baseUrl);
         ParameterizedType paramType = (ParameterizedType) getClass().getGenericSuperclass();
+        @SuppressWarnings("unchecked")
         Class<S> sClass = (Class<S>) paramType.getActualTypeArguments()[0];
         service = retrofit.create(sClass);
     }
