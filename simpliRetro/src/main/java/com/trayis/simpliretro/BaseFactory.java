@@ -3,7 +3,7 @@ package com.trayis.simpliretro;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -105,7 +105,7 @@ public class BaseFactory<S> {
     /**
      * Initializing OKHttp Retrofit for handling requests.
      *
-     * @param context
+     * @param context this c
      * @return
      */
     private OkHttpClient getClient(Context context) {
@@ -137,37 +137,39 @@ public class BaseFactory<S> {
         return service;
     }
 
-    protected <T extends Object> Observable<T> prepareObservable(Observable<T> observable) {
+    protected <T> Observable<T> prepareObservable(Observable<T> observable) {
         if (!isConnectionAvailable()) {
             return Observable.error(new ConnectException("Connection Not Available"));
         }
         return ReactiveUtil.prepareObservable(observable);
     }
 
-    protected <T extends Object> Single<T> prepareSingle(Single<T> single) {
+    protected <T> Single<T> prepareSingle(Single<T> single) {
         if (!isConnectionAvailable()) {
             return Single.error(new ConnectException("Connection Not Available"));
         }
         return ReactiveUtil.prepareSingle(single);
     }
 
-    protected <T extends Object> Completable prepareCompletable(Completable completable) {
+    protected <T> Completable prepareCompletable(Completable completable) {
         if (!isConnectionAvailable()) {
             return Completable.error(new ConnectException("Connection Not Available"));
         }
         return ReactiveUtil.prepareCompletable(completable);
     }
 
-    protected <T extends Object> Flowable<T> prepareFlowable(Flowable<T> flowable) {
+    protected <T> Flowable<T> prepareFlowable(Flowable<T> flowable) {
         if (!isConnectionAvailable()) {
             return Flowable.error(new ConnectException("Connection Not Available"));
         }
         return ReactiveUtil.prepareFlowable(flowable);
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean isConnectionAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager == null) return false;
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }

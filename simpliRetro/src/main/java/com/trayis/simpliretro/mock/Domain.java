@@ -3,16 +3,18 @@ package com.trayis.simpliretro.mock;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Arrays;
+
 /**
  * Created by mudesai on 9/20/16.
  */
 public class Domain implements Parcelable {
 
-    public MockMatchNode[] nodes;
+    MockMatchNode[] nodes;
 
-    public String url;
+    String url;
 
-    protected Domain(Parcel in) {
+    private Domain(Parcel in) {
         nodes = in.createTypedArray(MockMatchNode.CREATOR);
         url = in.readString();
     }
@@ -42,6 +44,6 @@ public class Domain implements Parcelable {
 
     @Override
     public String toString() {
-        return "ClassPojo [nodes = " + nodes + ", url = " + url + "]";
+        return "ClassPojo [nodes = " + Arrays.toString(nodes) + ", url = " + url + "]";
     }
 }

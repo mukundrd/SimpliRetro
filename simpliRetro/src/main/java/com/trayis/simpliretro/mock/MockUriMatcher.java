@@ -10,9 +10,9 @@ import okhttp3.HttpUrl;
 /**
  * Created by mudesai on 9/18/16.
  */
-public class MockUriMatcher {
+class MockUriMatcher {
 
-    public static final String NO_MATCH = "";
+    static final String NO_MATCH = "";
     private static final int EXACT = 0;
     private static final int TEXT = 1;
 
@@ -21,21 +21,21 @@ public class MockUriMatcher {
     private String mText;
     private ArrayList<MockUriMatcher> mChildren;
 
-    public MockUriMatcher(String code) {
+    MockUriMatcher(String code) {
         mCode = code;
         mWhich = -1;
-        mChildren = new ArrayList<MockUriMatcher>();
+        mChildren = new ArrayList<>();
         mText = null;
     }
 
     private MockUriMatcher() {
         mCode = NO_MATCH;
         mWhich = -1;
-        mChildren = new ArrayList<MockUriMatcher>();
+        mChildren = new ArrayList<>();
         mText = null;
     }
 
-    public void addURI(String authority, String path, String code) {
+    void addURI(String authority, String path, String code) {
         if (TextUtils.isEmpty(code)) {
             throw new IllegalArgumentException(String.format("code %s is invalid: cannot be null or empty", code));
         }
@@ -84,7 +84,7 @@ public class MockUriMatcher {
         node.mCode = code;
     }
 
-    public String match(HttpUrl uri) {
+    String match(HttpUrl uri) {
         final List<String> pathSegments = uri.pathSegments();
         final int li = pathSegments.size();
 
@@ -104,7 +104,6 @@ public class MockUriMatcher {
             int lj = list.size();
             for (int j = 0; j < lj; j++) {
                 MockUriMatcher n = list.get(j);
-                which_switch:
                 switch (n.mWhich) {
                     case EXACT:
                         if (n.mText.equals(u)) {

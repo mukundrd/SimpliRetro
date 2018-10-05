@@ -14,19 +14,19 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ReactiveUtil {
 
-    public static <T extends Object> Observable<T> prepareObservable(ObservableOnSubscribe<T> subscribe) {
+    public static <T> Observable<T> prepareObservable(ObservableOnSubscribe<T> subscribe) {
         return Observable.create(subscribe).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static <T extends Object> Observable<T> prepareObservable(Observable<T> observable) {
+    public static <T> Observable<T> prepareObservable(Observable<T> observable) {
         return observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static <T extends Object> Single<T> prepareSingle(SingleOnSubscribe<T> subscribe) {
+    public static <T> Single<T> prepareSingle(SingleOnSubscribe<T> subscribe) {
         return Single.create(subscribe).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static <T extends Object> Single<T> prepareSingle(Single<T> single) {
+    public static <T> Single<T> prepareSingle(Single<T> single) {
         return single.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -38,15 +38,15 @@ public class ReactiveUtil {
         return completable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static <T extends Object> Flowable<T> prepareFlowable(Flowable<T> flowable) {
+    public static <T> Flowable<T> prepareFlowable(Flowable<T> flowable) {
         return flowable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static <T extends Object> Flowable<T> prepareFlowable(FlowableOnSubscribe<T> subscribe) {
+    public static <T> Flowable<T> prepareFlowable(FlowableOnSubscribe<T> subscribe) {
         return prepareFlowable(subscribe, BackpressureStrategy.BUFFER);
     }
 
-    public static <T extends Object> Flowable<T> prepareFlowable(FlowableOnSubscribe<T> subscribe, BackpressureStrategy strategy) {
+    public static <T> Flowable<T> prepareFlowable(FlowableOnSubscribe<T> subscribe, BackpressureStrategy strategy) {
         return Flowable.create(subscribe, strategy).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 }
