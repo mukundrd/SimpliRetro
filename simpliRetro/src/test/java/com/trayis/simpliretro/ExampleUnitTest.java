@@ -1,4 +1,4 @@
-package com.trayis;
+package com.trayis.simpliretro;
 
 import org.junit.Test;
 
