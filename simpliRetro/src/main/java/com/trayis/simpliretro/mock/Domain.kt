@@ -6,33 +6,10 @@ import android.os.Parcelable
 /**
  * Created by mudesai on 9/20/16.
  */
-data class Domain(val nodes: Array<MockMatchNode>? = null, val url: String? = null) : Parcelable {
+data class Domain constructor(var nodes: Array<MockMatchNode>? = null,
+                              var url: String? = null) : Parcelable {
 
-    constructor(parcel: Parcel) : this(
-            parcel.createTypedArray(MockMatchNode.CREATOR),
-            parcel.readString())
-
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Domain
-
-        if (nodes != null) {
-            if (other.nodes == null) return false
-            if (!nodes.contentEquals(other.nodes)) return false
-        } else if (other.nodes != null) return false
-        if (url != other.url) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = nodes?.contentHashCode() ?: 0
-        result = 31 * result + (url?.hashCode() ?: 0)
-        return result
-    }
+    constructor(`in`: Parcel) : this(`in`.createTypedArray(MockMatchNode.CREATOR), `in`.readString())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeTypedArray(nodes, flags)
@@ -41,6 +18,21 @@ data class Domain(val nodes: Array<MockMatchNode>? = null, val url: String? = nu
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Domain
+
+        return url === other.url
+    }
+
+    override fun hashCode(): Int {
+        var result = nodes?.contentHashCode() ?: 0
+        result = 31 * result + (url?.hashCode() ?: 0)
+        return result
     }
 
     companion object CREATOR : Parcelable.Creator<Domain> {

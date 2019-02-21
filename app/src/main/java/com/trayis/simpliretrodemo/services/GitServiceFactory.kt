@@ -18,14 +18,14 @@ class GitServiceFactory private constructor() : BaseFactory<GitService>(BASE_URL
 
         private val BASE_URL = "https://api.github.com"
 
-        lateinit var inst: GitServiceFactory
+        var inst: GitServiceFactory? = null
 
         @Synchronized
         fun getInstance(): GitServiceFactory {
-            if (::inst.isInitialized) {
+            if (inst == null) {
                 inst = GitServiceFactory()
             }
-            return inst
+            return inst!!
         }
     }
 

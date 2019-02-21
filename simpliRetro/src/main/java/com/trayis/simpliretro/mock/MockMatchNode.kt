@@ -6,25 +6,22 @@ import android.os.Parcelable
 /**
  * Created by mudesai on 9/18/16.
  */
-data class MockMatchNode protected constructor(val url: String? = null, val json: String? = null) : Parcelable {
+data class MockMatchNode constructor(var url: String? = null,
+                                     var json: String? = null,
+                                     var method: String? = null) : Parcelable {
 
-    constructor(parcel: Parcel) : this(
-            parcel.readString(),
-            parcel.readString())
+    constructor(`in`: Parcel) : this(`in`.readString(), `in`.readString(), `in`.readString())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(url)
         parcel.writeString(json)
+        parcel.writeString(method)
     }
 
-    override fun describeContents(): Int {
-        return 0
-    }
+    override fun describeContents() = 0
 
     companion object CREATOR : Parcelable.Creator<MockMatchNode> {
-        override fun createFromParcel(parcel: Parcel): MockMatchNode {
-            return MockMatchNode(parcel)
-        }
+        override fun createFromParcel(parcel: Parcel) = MockMatchNode(parcel)
 
         override fun newArray(size: Int): Array<MockMatchNode?> {
             return arrayOfNulls(size)

@@ -49,5 +49,4 @@ object ReactiveUtil {
     fun <T> prepareFlowable(subscribe: FlowableOnSubscribe<T>, strategy: BackpressureStrategy): Flowable<T> {
         return Flowable.create(subscribe, strategy).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
     }
-
 }

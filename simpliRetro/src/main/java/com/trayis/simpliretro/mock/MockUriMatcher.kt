@@ -9,38 +9,39 @@ import okhttp3.HttpUrl
 /**
  * Created by mudesai on 9/18/16.
  */
-class MockUriMatcher {
+internal class MockUriMatcher {
 
-    private var mCode: String? = null
-    private var mWhich: Int = 0
-    private var mText: String? = null
+    private var mJsonFile: String? = null
+    private var mKind: Int = 0
+    private var mEndPoint: String? = null
+    private var mMethod: String? = null
     private var mChildren: ArrayList<MockUriMatcher>? = null
 
     constructor(code: String) {
-        mCode = code
-        mWhich = -1
+        mJsonFile = code
+        mKind = -1
         mChildren = ArrayList()
-        mText = null
+        mEndPoint = null
     }
 
     private constructor() {
-        mCode = NO_MATCH
-        mWhich = -1
+        mJsonFile = NO_MATCH
+        mKind = -1
         mChildren = ArrayList()
-        mText = null
+        mEndPoint = null
     }
 
-    fun addURI(authority: String, path: String?, code: String?) {
+    fun addURI(authority: String, path: String?, code: String, method: String?) {
         if (TextUtils.isEmpty(code)) {
             throw IllegalArgumentException(String.format("code %s is invalid: cannot be null or empty", code))
         }
 
         var tokens: Array<String>? = null
-        if (path != null) {
-            var newPath: String = path
+        path?.let {
+            var newPath = it
             // Strip leading slash if present.
-            if (path.length > 1 && path[0] == '/') {
-                newPath = path.substring(1)
+            if (it.length > 1 && it[0] == '/') {
+                newPath = it.substring(1)
             }
             tokens = newPath.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         }
@@ -49,47 +50,44 @@ class MockUriMatcher {
         var node = this
         for (i in -1 until numTokens) {
             val token = if (i < 0) authority else tokens!![i]
-            val children = node.mChildren
-            val numChildren = children!!.size
-            var child: MockUriMatcher
-            var j: Int
-            j = 0
-            while (j < numChildren) {
-                child = children[j]
-                if (token == child.mText) {
-                    node = child
-                    break
+            node.mChildren?.let {
+                var child: MockUriMatcher
+                var j = 0
+                while (j < it.size) {
+                    child = it[j]
+                    if (token == child.mEndPoint) {
+                        node = child
+                        break
+                    }
+                    j++
                 }
-                j++
-            }
-            if (j == numChildren) {
-                // Child not found, create it
-                child = MockUriMatcher()
-                /* if (token.equals("#")) {
-                    child.mWhich = NUMBER;
+
+                if (j == it.size) {
+                    // Child not found, create it
+                    child = MockUriMatcher()
+                    /* if (token.equals("#")) {
+                    child.mKind = NUMBER;
                 } else*/
-                if (token.startsWith("{") && token.endsWith("}")) {
-                    child.mWhich = TEXT
-                } else {
-                    child.mWhich = EXACT
+                    if (token.startsWith("{") && token.endsWith("}")) {
+                        child.mKind = TEXT
+                    } else {
+                        child.mKind = EXACT
+                    }
+                    child.mEndPoint = token
+                    node.mChildren?.add(child)
+                    node = child
                 }
-                child.mText = token
-                node.mChildren!!.add(child)
-                node = child
             }
         }
-        node.mCode = code
+        node.mJsonFile = code
+        node.mMethod = method?.toUpperCase() ?: "GET"
     }
 
-    fun match(uri: HttpUrl): String? {
+    fun match(uri: HttpUrl, method: String): String? {
         val pathSegments = uri.pathSegments()
         val li = pathSegments.size
 
         var node: MockUriMatcher? = this
-
-        if (li == 0) {
-            return this.mCode
-        }
 
         for (i in -1 until li) {
             val u = if (i < 0) uri.host() else pathSegments[i]
@@ -98,14 +96,17 @@ class MockUriMatcher {
             val lj = list.size
             for (j in 0 until lj) {
                 val n = list[j]
-                when (n.mWhich) {
-                    EXACT -> if (n.mText == u) {
+                when (n.mKind) {
+                    EXACT -> if (n.mEndPoint == u) {
                         node = n
                     }
                     TEXT -> node = n
                 }
                 if (node != null) {
-                    break
+                    if (node.mMethod == null || method == node.mMethod) {
+                        break
+                    }
+                    node = null
                 }
             }
             if (node == null) {
@@ -113,7 +114,7 @@ class MockUriMatcher {
             }
         }
 
-        return node!!.mCode
+        return node?.mJsonFile
     }
 
     companion object {

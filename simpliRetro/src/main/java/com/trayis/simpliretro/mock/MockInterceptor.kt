@@ -3,35 +3,21 @@ package com.trayis.simpliretro.mock
 import android.content.Context
 import android.text.TextUtils
 import android.util.Log
-
 import com.google.gson.Gson
-
+import okhttp3.*
 import java.io.IOException
 import java.io.InputStream
-
-import okhttp3.HttpUrl
-import okhttp3.Interceptor
-import okhttp3.MediaType
-import okhttp3.Protocol
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.ResponseBody
+import java.nio.charset.StandardCharsets
 
 /**
  * Created by mudesai on 9/18/16.
  */
-class MockInterceptor private constructor(context: Context) : Interceptor, Runnable {
+class MockInterceptor private constructor(val context: Context) : Interceptor, Runnable {
 
-    private val context: Context = context.applicationContext
-
-    private var domains: Array<Domain>? = null
-
-    private var uriMatcher: MockUriMatcher? = null
+    private lateinit var uriMatcher: MockUriMatcher
 
     init {
-        // TODO: Confirm if possible to avoid thread spawning
         Thread(this).start()
-        // run();
     }
 
     @Throws(IOException::class)
@@ -39,13 +25,13 @@ class MockInterceptor private constructor(context: Context) : Interceptor, Runna
         val request = chain.request()
 
         val url = request.url()
-        Log.v(TAG, url.toString())
+        Log.v(TAG, url.toString() + request.method())
 
-        val json = uriMatcher!!.match(url)
+        val json = uriMatcher.match(url, request.method())
 
-        return if (!TextUtils.isEmpty(json)) {
-            obtainResponse(request, json!!)
-        } else chain.proceed(request)
+        return json?.let {
+            obtainResponse(request, it)
+        } ?: chain.proceed(request)
 
     }
 
@@ -64,18 +50,15 @@ class MockInterceptor private constructor(context: Context) : Interceptor, Runna
 
     override fun run() {
         val array = loadJsonFromFile(MOCK_JSON)
-        val gson = Gson()
-        domains = gson.fromJson(array, Array<Domain>::class.java)
+        val domains = Gson().fromJson(array, Array<Domain>::class.java)
         uriMatcher = MockUriMatcher(MockUriMatcher.NO_MATCH)
 
-        domains?.let { dom ->
-            for ((nodes, url) in dom) {
-                nodes?.let { nod ->
-                    for ((url1, json) in nod) {
-                        url?.let {
-                            val baseUrl = HttpUrl.parse(it)?.host()
-                            uriMatcher!!.addURI(baseUrl!!, url1, json)
-                        }
+        for ((nodes, url) in domains) {
+            nodes?.let {
+                for ((url1, json, method) in it) {
+                    HttpUrl.parse(url!!)?.let {
+                        val baseUrl = it.host()
+                        uriMatcher.addURI(baseUrl, url1, json!!, method)
                     }
                 }
             }
@@ -89,9 +72,10 @@ class MockInterceptor private constructor(context: Context) : Interceptor, Runna
             val `is` = context.assets.open(jsonFile)
             val size = `is`.available()
             val buffer = ByteArray(size)
+
             `is`.read(buffer)
             `is`.close()
-            json = String(buffer, Charsets.UTF_8)
+            json = String(buffer, StandardCharsets.UTF_8)
         } catch (e: IOException) {
             Log.w(TAG, e.message, e)
         }
@@ -101,12 +85,12 @@ class MockInterceptor private constructor(context: Context) : Interceptor, Runna
 
     companion object {
 
-        private val TAG = "MockInterceptor"
+        private const val TAG = "MockInterceptor"
 
         private const val MOCK_JSON = "_mock.json"
 
         fun getInstance(context: Context): MockInterceptor {
-            return MockInterceptor(context)
+            return MockInterceptor(context.applicationContext)
         }
 
         fun isConfigured(context: Context): Boolean {
@@ -117,10 +101,10 @@ class MockInterceptor private constructor(context: Context) : Interceptor, Runna
             } catch (e: IOException) {
                 Log.w(TAG, e.message, e)
             } finally {
-                if (`is` != null) {
+                `is`?.let {
                     fileExists = true
                     try {
-                        `is`.close()
+                        it.close()
                     } catch (e: IOException) {
                         // Do nothing
                     }
