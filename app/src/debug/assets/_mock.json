@@ -4,7 +4,8 @@
     "nodes": [
       {
         "url": "users/{user}/repos",
-        "json": "repos.json"
+        "json": "repos.json",
+        "method": "GET"
       }
     ]
   },
@@ -13,7 +14,8 @@
     "nodes": [
       {
         "url": "rest/list_makes",
-        "json": "list_makes.json"
+        "json": "list_makes.json",
+        "method": "GET"
       }
     ]
   },
@@ -22,7 +24,8 @@
     "nodes": [
       {
         "url": "rest/no_show_employee",
-        "json": "no_show_employee.json"
+        "json": "no_show_employee.json",
+        "method": "GET"
       }
     ]
   }
