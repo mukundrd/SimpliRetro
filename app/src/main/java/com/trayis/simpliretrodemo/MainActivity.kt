@@ -3,12 +3,13 @@ package com.trayis.simpliretrodemo
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import com.trayis.simpliretro.adapter.response.FailureResponse
+import com.trayis.simpliretro.adapter.response.SimpliResponse
+import com.trayis.simpliretro.adapter.response.SuccessResponse
 import com.trayis.simpliretrodemo.model.Repo
 import com.trayis.simpliretrodemo.services.GitServiceFactory
-import androidx.appcompat.app.AppCompatActivity
-import io.reactivex.SingleObserver
-import io.reactivex.disposables.Disposable
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -24,25 +25,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun getGit() {
-        GitServiceFactory.getInstance().getRepos("mukundrd").subscribe(object : SingleObserver<Array<Repo>> {
-            override fun onSubscribe(d: Disposable) {
-            }
-
-            override fun onSuccess(repos: Array<Repo>) {
-                Log.v(TAG, "Data : ")
-                for (data in repos) {
-                    Log.v(TAG, data.toString())
+        GitServiceFactory.getInstance().getRepos("mukundrd").observeForever { t ->
+            if (t != null) {
+                when (t) {
+                    is SuccessResponse -> {
+                        t.data?.let {
+                            Log.v(TAG, "Data : ")
+                            for (data in it) {
+                                Log.v(TAG, data.toString())
+                            }
+                        }
+                    }
+                    is FailureResponse -> {
+                    }
                 }
             }
-
-            override fun onError(e: Throwable) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-        })
+        }
     }
 
     companion object {
-        private val TAG = "MainActivity"
+        private const val TAG = "MainActivity"
     }
 }
