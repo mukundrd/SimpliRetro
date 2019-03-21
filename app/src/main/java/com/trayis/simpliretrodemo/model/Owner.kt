@@ -6,7 +6,7 @@ import android.os.Parcelable
 /**
  * Created by Mukund on 05-03-2017.
  */
-class Owner protected constructor(parcel: Parcel) : Parcelable {
+class Owner : Parcelable {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
     }
@@ -17,7 +17,7 @@ class Owner protected constructor(parcel: Parcel) : Parcelable {
 
     companion object CREATOR : Parcelable.Creator<Owner> {
         override fun createFromParcel(parcel: Parcel): Owner {
-            return Owner(parcel)
+            return Owner()
         }
 
         override fun newArray(size: Int): Array<Owner?> {
