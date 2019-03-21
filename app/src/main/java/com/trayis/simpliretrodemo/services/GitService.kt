@@ -1,9 +1,9 @@
 package com.trayis.simpliretrodemo.services
 
-import com.trayis.simpliretrodemo.model.Repo
-
 import androidx.annotation.WorkerThread
-import io.reactivex.Single
+import androidx.lifecycle.LiveData
+import com.trayis.simpliretro.adapter.response.SimpliResponse
+import com.trayis.simpliretrodemo.model.Repo
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -14,6 +14,6 @@ interface GitService {
 
     @WorkerThread
     @GET("users/{user}/repos")
-    fun getRepos(@Path("user") user: String): Single<Array<Repo>>
+    fun getRepos(@Path("user") user: String): LiveData<SimpliResponse<Array<Repo>>>
 
 }
