@@ -2,9 +2,7 @@ package com.trayis.simpliretro
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.os.Parcelable
 import com.google.gson.GsonBuilder
-import com.trayis.simpliretro.adapter.LiveDataCallAdapterFactory
 import com.trayis.simpliretro.mock.MockInterceptor
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -14,6 +12,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Converter
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.ParameterizedType
 import java.net.ConnectException
@@ -67,7 +66,7 @@ abstract class BaseFactory<S> protected constructor(private val baseUrl: String)
 
             retrofit = Retrofit.Builder()
                     .client(getClient(context))
-                    .addCallAdapterFactory(getAdapterFactory())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(converterFactory)
                     .baseUrl(baseUrl)
                     .build()
@@ -89,8 +88,6 @@ abstract class BaseFactory<S> protected constructor(private val baseUrl: String)
 
         return GsonConverterFactory.create(gson)
     }
-
-    open fun getAdapterFactory() = LiveDataCallAdapterFactory<Parcelable>()
 
     open fun getDateFormat() = "dd-MM-yyyy 'T' HH:mm:ss Z"
 
