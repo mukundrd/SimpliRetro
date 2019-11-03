@@ -1,14 +1,6 @@
 package com.trayis.simpliretro
 
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Completable
-import io.reactivex.CompletableOnSubscribe
-import io.reactivex.Flowable
-import io.reactivex.FlowableOnSubscribe
-import io.reactivex.Observable
-import io.reactivex.ObservableOnSubscribe
-import io.reactivex.Single
-import io.reactivex.SingleOnSubscribe
+import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
